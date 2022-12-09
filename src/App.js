@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
 
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Header from "./components/header/Header";
+import Body from "./components/body/Body";
+import LikedSongs from "./components/favor/LikedSongs";
+import Footer from "./components/footer/Footer";
+import "./App.scss"
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+import {fetchAllSongs} from "./redux/action/MusicAction";
+
+import m2w from "./M2W.jpg"
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(fetchAllSongs())
+  },[])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <div className="App_header">
+          <Header/>
+        </div>
+        <div className="App_body">
+          <Routes>
+            <Route path='/' element={<Body/>}/>
+            <Route path='/favor' element={<LikedSongs/>}/>
+          </Routes>
+        </div>
+        <Footer/>
+      </Router>
     </div>
   );
 }
